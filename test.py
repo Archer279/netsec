@@ -7,7 +7,15 @@ import socket, time
 global s
 
 
-
+def s_print(strr):
+    global s
+    a = strr.encode()
+    b = a.split(b"\n")
+    for i in b[0:-1]:
+        i += b'\n'
+        s.send(i)
+    s.send(b[-1] + b'<EOL>\n')
+    # print(strr)
 
 
 def create_container_contents(*escape_room_objects):
@@ -226,7 +234,7 @@ def advance_time(room, clock):
 
 
 class EscapeRoomGame:
-    def __init__(self, command_handler_class=EscapeRoomCommandHandler, output=print):
+    def __init__(self, command_handler_class=EscapeRoomCommandHandler, output=s_print):
         self.room, self.player = None, None
         self.output = output
         self.command_handler_class = command_handler_class
